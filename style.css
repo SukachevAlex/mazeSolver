@@ -1,0 +1,136 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: rgb(0, 128, 128);
+  font-size: 16px;
+  margin: 0;
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+}
+
+header {
+  margin: 5px;
+}
+
+
+input[type="text"] {
+  width: 100px
+}
+
+input[type="number"] {
+  width: 50px
+}
+
+.form__settings {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.button {
+  margin: 20px;
+}
+
+.settings, .button {
+  margin-bottom: 30px
+}
+
+.solution {
+  text-align: center;
+}
+
+#solution__text {
+  font-size: 24px;
+  font-weight: bold;
+
+}
+
+#start {
+  padding: 20px 40px;
+  background-color: #fff;
+  color: #000;
+  font-size: 20px;
+}
+
+.row {
+  margin: 10px
+}
+
+#results {
+  display: none;
+  width: 38%;
+  margin-top: 200px;
+}
+
+.table-popup {
+  z-index: 1;
+  display: none;
+  position: absolute;
+  width: 85%;
+  height: 70%;
+  margin: 0 auto;
+  background-color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.table__wrapper {
+  overflow-y: auto;
+  height: 95%;
+}
+
+.results-table{
+  font-size: 18px;
+  width: 100%;
+  height: auto;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.table__wrapper {
+  margin-top: 30px;
+}
+
+.results-table tr, .results-table td {
+  border: 1px solid #ccc;
+}
+
+#open_table {
+  margin: 0 auto;
+  width: 100%;
+}
+
+
+#close_table {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  outline: none;
+  opacity: 0.6;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+#close_table:hover {
+  opacity: 0.9;
+}
+
+#defaultCanvas0 {
+  position: absolute;
+  top: 39%;
+  left: 24%;
+  transform: translateY(-50%);
+  box-sizing: border-box;
+  width: 75vw !important;
+  height: 75vh !important;
+}

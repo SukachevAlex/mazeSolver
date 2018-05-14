@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+<body>
+  <header class="header">
+    <div class="settings">
+      <form class="form__settings" action="index.html" method="post" oninput="rate.value=range.value">
+        <div class="row">
+          <label for="algorithm">Algorithm</label>
+          <select id="algorithm" name="algorithm">
+            <option value="resolveAint">Aint solver</option>
+            <option value="aStar">A*</option>
+            <!--
+            <option value="random">random</option>
+            <option value="2particle">random 2 particle</option>
+            <option value="3particle">random 3 particle</option>
+            -->
+          </select>
+        </div>
+        <div class="row">
+          <label for="rows">Rows</label>
+          <input id="rows" type="number" value="10" min="2" max="50">
+        </div>
+        <div class="row">
+          <label for="cols">Cols</label>
+          <input id="cols" type="number" value="10" min="2" max="50">
+        </div>
+
+        <div class="row">
+          <label for="generateNew">New topology</label>
+          <input id="generateNew" type="checkbox">
+        </div>
+        <div class="row">
+          <label for="do_diagonal">Diagonal</label>
+          <input id="do_diagonal" type="checkbox">
+        </div>
+        <div class="row">
+          <label for="random_nodes">Random gateway</label>
+          <input id="random_nodes" type="checkbox">
+        </div>
+        <div class="row">
+          <label for="addSpots">Add spots</label>
+          <input id="addSpots" type="checkbox">
+        </div>
+        <div class="row">
+          0 <input id="grid_spawn_rate" type="range" min="0" max="0.5" step="0.1" value="0" name="range"> 0.5
+          <br>
+          Obstacles: <output name="rate">0</output>
+        </div>
+        <div class="row">
+          <label for="frameRateInput">FPS(to change &uarr; &darr;)</label>
+          <input id="frameRateInput" type="number" value="1" readonly>
+        </div>
+        <div class="row">
+          <label for="runCount">Number of runs</label>
+          <input id="runCount" type="number" value="1" min="1" max="100">
+        </div>
+        <div class="row">
+          <label for="aint_count">Number of aints</label>
+          <input id="aint_count" type="number" value="1" min="1" max="30">
+        </div>
+
+      </form>
+
+      <div class="button">
+        <button id="start">Start</button>
+      </div>
+      <div id="results">
+        <table class="results-table">
+          <tr>
+            <td>Algorithm</td>
+            <td>Steps</td>
+            <td>Time</td>
+            <td>Path</td>
+            <td>Unsolved</td>
+            <td>Spots</td>
+          </tr>
+          <tr>
+            <td id="algorithm_table">-</td>
+            <td id="steps_table">-</td>
+            <td id="time_table">-</td>
+            <td id="path_table">-</td>
+            <td id="unsolved_table">-</td>
+            <td id="spot_count_table">-</td>
+          </tr>
+        </table>
+        <button id="open_table" type="button" name="button">See all results</button>
+      </div>
+
+      <div id="solution">
+          Steps: <span id="steps">0</span>
+          Time: <span id="time">0</span>
+          <p id="solution__text"></p>
+      </div>
+    </div>
+
+
+
+
+  </header>
+
+  <div id="table-popup" class="table-popup">
+    <div class="table__wrapper">
+      <button id="close_table" type="button" name="button">X</button>
+      <table id="results_table" class="results-table">
+          <tr>
+            <td>Run #</td>
+            <td>Aint #</td>
+            <td>Steps</td>
+            <td>Time</td>
+            <td>Path</td>
+          </tr>
+      </table>
+      <div>Algorithm: <span id="algorithm_field">Aint Solver</span></div>
+      <div>Unsolved <span id="unsolved_field">0</span></div>
+      <div>Spot count <span id="spot_count_field">0</span></div>
+    </div>
+
+  </div>
+
+  <script src="config.js"></script>
+  <script src="Spot.js"></script>
+  <script src="Aint.js"></script>
+  <script src="drawing.js"></script>
+  <script src="algorithm/aStar.js"></script>
+  <script src="algorithm/random.js"></script>
+  <script src="algorithm/aint.js"></script>
+  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.js"></script>
+
+</body>
+</html>
