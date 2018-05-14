@@ -96,7 +96,7 @@ input[type="number"] {
 }
 
 .results-table tr, .results-table td {
-  border: 1px solid #ccc;
+  border: 1px solid #555;
 }
 
 #open_table {
@@ -133,4 +133,8 @@ input[type="number"] {
   box-sizing: border-box;
   width: 75vw !important;
   height: 75vh !important;
+}
+
+#results_table tr:nth-child(2n) {
+  background-color: #eee;
 }

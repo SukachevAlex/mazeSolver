@@ -85,13 +85,13 @@ function init() {
 	addSpots = document.getElementById('addSpots').checked;
 
 	generateNew = document.getElementById('generateNew').checked;
-	grid_spawn_rate = document.getElementById('grid_spawn_rate').value;
+	grid_spawn_rate = Number(document.getElementById('grid_spawn_rate').value);
 	steps_field = document.getElementById('steps');
 	time_field = document.getElementById('time');
-	cols = document.getElementById('cols').value;
-	rows = document.getElementById('rows').value;
+	cols = Number(document.getElementById('cols').value);
+	rows = Number(document.getElementById('rows').value);
 	algorithm = document.getElementById('algorithm').value;
-	run_count = document.getElementById('runCount').value;
+	run_count = Number(document.getElementById('runCount').value);
 	aint_count = Number(document.getElementById('aint_count').value);
 	document.getElementById("solution").style.display = "block";
 	document.getElementById("results").style.display = "none";
@@ -136,7 +136,9 @@ function buildGrid() {
 		start.visited = true;
 		end = grid[(cols - 1)][(rows - 1)];
 	}
-	removeLoops();
+	if (grid_spawn_rate) {
+		removeLoops();
+	}
 }
 
 function resetBuild() {
@@ -159,6 +161,7 @@ function resetBuild() {
 	}
 }
 
+
 function removeLoops() {
 	for(let i = 0; i < cols; i++) {
 		for(let j = 0; j < rows; j++) {
@@ -169,13 +172,14 @@ function removeLoops() {
 				}
 			}
 			if (wallArray.length) {
-				if (wallArray.length > 2 || wallArray.length == grid[i][j].neighbors.length) {
+				if (wallArray.length > 1) {
 					let randNum = Math.round(random(0, (wallArray.length - 1)));
 					wallArray[randNum].wall = false;
 				}
 			}
 		}
 	}
+
 }
 
 
