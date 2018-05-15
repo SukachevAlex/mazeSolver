@@ -107,10 +107,11 @@ function resolveAint() {
 								removeFromArray(aint_array[i].current.visitors, i);
 								aint_array[i].current.pheromon -= 0.1;
 								if (aint_array[i].current !== start && aint_array[i].current.visitors < 1) {
+									removeFromArray(openSet, aint_array[i].current);
 									closedSet.push(aint_array[i].current);
 									aint_array[i].current.pheromon = -1;
 								}
-								removeFromArray(openSet, aint_array[i].current);
+
 
 								aint.path.pop();
 								aint_array[i].current = aint.path[aint.path.length - 1];

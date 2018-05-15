@@ -2,7 +2,7 @@ function drawBackground() {
 	background(0);
 	for(let i = 0; i < cols; i++) {
 		for(let j = 0; j < rows; j++) {
-			grid[i][j].show(color(200,200,200,1));
+			grid[i][j].show(color(150,150,150,1));
 		}
 	}
 }
