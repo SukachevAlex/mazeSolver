@@ -3,8 +3,6 @@ function resolveAint() {
 	countSteps(aint_array.length - aint_finished.length);
 	countTime();
 
-
-
 	if (aint_array.length > 0) {
 
 		//finish if all spot are visited and find path
@@ -136,6 +134,12 @@ function resolveAint() {
 		drawSets();
 		drawAints();
 		drawCurrentPath();
+		if (addSpots) {
+			findSpots();
+			drawSpots();
+		}
+
+
 
 		for (let i = 0; i < aint_resolve.length; i++) {
 			if (aint_resolve[i].path.length > 0) {

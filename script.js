@@ -201,22 +201,11 @@ function finishSolving() {
 
 	} else if (run_count === 0) {
 
-		if (addSpots) {
-			drawBackground();
-			drawStartEnd();
-			drawSets();
-			drawCurrentPath();
-			findSpots();
-			drawSpots();
-			document.getElementById('spot_count_table').innerHTML = result.spot_count;
-
-		}
-
-
 		noLoop();
 		document.getElementById("solution").style.display = "none";
 		document.getElementById("results").style.display = "block";
 		document.getElementById('runCount').value = 1;
+		document.getElementById('spot_count_table').innerHTML = result.spot_count
 
 		document.getElementById('close_table').addEventListener('click', function () {
 			document.getElementById('table-popup').style.display = "none";
