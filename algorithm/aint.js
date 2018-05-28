@@ -26,8 +26,8 @@ function resolveAint() {
 
 					if (aint.current == end) {
 						result.path.push(aint_array[i].path.length - 1);
-						result.steps.push(--steps);
-						result.time.push(--time);
+						result.steps.push(steps-1);
+						result.time.push(time-1);
 						result.aint_num.push(aint_array[i].number);
 						result.run_num.push(run_count);
 						mazeResolved = true;

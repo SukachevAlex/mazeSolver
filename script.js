@@ -27,6 +27,12 @@ let result = {
 	path_average: 0,
 	unsolved: 0,
 	spot_count: 0,
+	minSteps: 0,
+	maxSteps: 0,
+	minTime: 0,
+	maxTime: 0,
+	minPath: 0,
+	maxPath: 0
 };
 
 function findNotVisited() {
@@ -109,6 +115,12 @@ function init() {
 		result.time_average = 0;
 		result.unsolved = 0;
 		result.spot_count = 0;
+		result.minSteps = 0;
+		result.maxSteps = 0;
+		result.minTime = 0;
+		result.maxTime = 0;
+		result.minPath = 0;
+		result.maxPath = 0;
 	});
 }
 
@@ -219,9 +231,10 @@ function finishSolving() {
 			}
 			document.getElementById('unsolved_field').innerHTML = result.unsolved;
 			document.getElementById('spot_count_field').innerHTML = result.spot_count;
-
-
 			document.getElementById('algorithm_field').innerHTML = algorithm;
+			document.getElementById('steps_result_field').innerHTML = ` min = ${result.minSteps}, max = ${result.maxSteps}`;
+			document.getElementById('time_result_field').innerHTML = ` min = ${result.minTime}, max = ${result.maxTime}`;
+			document.getElementById('path_result_field').innerHTML = ` min = ${result.minPath}, max = ${result.maxPath}`;
 		});
 
 	}
@@ -321,6 +334,13 @@ function countResult() {
 		result.time_average = (result.time.reduce((acc,el) => acc + el, 0) / result.time.length).toFixed(2);
 		result.path_average = (result.path.reduce((acc,el) => acc + el, 0) / result.path.length).toFixed(2);
 		result.steps_average = (result.steps.reduce((acc,el) => acc + el, 0) / result.steps.length).toFixed(2);
+		result.minPath = Math.min(...result.path);
+		result.minTime = Math.min(...result.time);
+		result.minSteps = Math.min(...result.steps);
+		result.maxPath = Math.max(...result.path);
+		result.maxTime = Math.max(...result.time);
+		result.maxSteps = Math.max(...result.steps);
+
 	}
 }
 
