@@ -3,16 +3,14 @@ function resolveAint() {
 	countSteps(aint_array.length - aint_finished.length);
 	countTime();
 
-	if (aint_array.length > 0) {
+	//finish if all spot are visited and find path
+	if (mazeResolved && notVisited.length == 0) {
+		finishSolving();
+	} else {
 
-		//finish if all spot are visited and find path
-		if (mazeResolved && notVisited.length == 0) {
-			finishSolving();
-		} else {
-			if (aint_finished.length !== aint_array.length) {
+			for(let i = 0; i < aint_array.length; i++) {
 
-				for(let i = 0; i < aint_array.length; i++) {
-
+				if (!aint_resolve.includes(aint_array[i])) {
 					let aint = aint_array[i];
 					let first_turn = [];
 					let second_turn = [];
@@ -22,9 +20,12 @@ function resolveAint() {
 					aint.current.pheromon += 0.1;
 					aint.current.visited = true;
 					removeFromArray(notVisited, aint.current);
+					aint.grid[aint.current.j][aint.current.i] = 1;
 
 
 					if (aint.current == end) {
+						aint.grid[aint.current.j][aint.current.i] = 10;
+
 						result.path.push(aint_array[i].path.length - 1);
 						result.steps.push(steps-1);
 						result.time.push(time-1);
@@ -34,36 +35,30 @@ function resolveAint() {
 						if (path[0].length == 1) {
 							path[0] = [...aint_array[i].path];
 							aint_resolve.push(aint_array[i]);
-							delete aint_array[i];
-							removeFromArray(aint_array, aint_array[i]);
 							continue;
-						} else {
-							if (path[0].length > aint_array[i].path.length) {
-								path[0] = [...aint_array[i].path];
-								aint_resolve.push(aint_array[i]);
-								delete aint_array[i];
-								removeFromArray(aint_array, aint_array[i]);
-								continue;
-							}
+
 						}
 
 
 					}
-					//else {
 						for (let j = 0; j < neighbors.length; j++) {
 
 							if (neighbors[j] == end && !aint_array[i].visited.includes(end)) {
 								first_turn.push(neighbors[j]);
 								break;
-							} else {
-								if (!neighbors[j].wall  && neighbors[j] !== start && !closedSet.includes(neighbors[j])) {
+							} else if (!neighbors[j].wall  && neighbors[j] !== start && !closedSet.includes(neighbors[j])) {
 									if (neighbors[j].pheromon == 0) {
 										first_turn.push(neighbors[j]);
 									} else if (!aint.visited.includes(neighbors[j])) {
 										second_turn.push(neighbors[j]);
 									}
+								} else {
+									 if (neighbors[j].wall) {
+										 aint.grid[neighbors[j].j][neighbors[j].i] = 2;
+									 } else if (closedSet.includes(neighbors[j])) {
+										 aint.grid[neighbors[j].j][neighbors[j].i] = -1;
+									 }
 								}
-							}
 						}
 						if (first_turn.length > 0) {
 							let next;
@@ -104,7 +99,7 @@ function resolveAint() {
 							} else {
 								removeFromArray(aint_array[i].current.visitors, i);
 								aint_array[i].current.pheromon -= 0.1;
-								if (aint_array[i].current !== start && aint_array[i].current.visitors < 1) {
+								if (aint_array[i].current !== start && aint_array[i].current.visitors < 1 && aint_array[i].current !== end) {
 									removeFromArray(openSet, aint_array[i].current);
 									closedSet.push(aint_array[i].current);
 									aint_array[i].current.pheromon = -1;
@@ -115,49 +110,36 @@ function resolveAint() {
 								aint_array[i].current = aint.path[aint.path.length - 1];
 							}
 
-						} else {}
+						}
 						closedSet = uniqueElements(closedSet);
 						openSet = uniqueElements(openSet);
 						aint_finished = uniqueElements(aint_finished);
-					//}
 				}
-			} else if (mazeResolved){
-				finishSolving();
-			} else {
-				result.unsolved++;
-				finishSolving();
 			}
-		}
 
-		drawBackground();
-		drawStartEnd();
-		drawSets();
-		drawAints();
-		drawCurrentPath();
-		if (addSpots) {
-			findSpots();
-			drawSpots();
-		}
-
-
-
-		for (let i = 0; i < aint_resolve.length; i++) {
-			if (aint_resolve[i].path.length > 0) {
-				let temp = aint_resolve[i].path.pop();
-				temp.pheromon += 0.5;
-				drawResolvedPath(temp);
-			} else {
-				removeFromArray(aint_resolve, aint_resolve[i]);
-			}
-		}
-
-	} else {
-		finishSolving();
 	}
 
 
 
+	for (let i = 0; i < aint_resolve.length; i++) {
+		if (aint_resolve[i].path.length > 1) {
+			let temp = aint_resolve[i].path.pop();
+			temp.pheromon += 0.5;
+			//drawResolvedPath(temp);
+			aint_resolve[i].current = temp;
+			removeFromArray(aint_resolve[i].visited, temp);
+		} else {
+			removeFromArray(aint_resolve, aint_resolve[i]);
+		}
+	}
 
-
-
+	drawBackground();
+	drawSets();
+	drawCurrentPath();
+	drawAints();
+	drawStartEnd();
+	if (addSpots) {
+		findSpots();
+		drawSpots();
+	}
 }

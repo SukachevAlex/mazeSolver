@@ -50,7 +50,11 @@ function drawStartEnd() {
 function drawAints() {
 	for (let i = 0; i < aint_array.length; i++) {
 		noStroke();
-		fill(color(0,0,0, 1));
+		if (!aint_resolve.includes(aint_array[i])) {
+			fill(color(0,0,0, 1));
+		} else {
+			fill(color(255,0,0, 0.85));
+		}
 		if (i < 5) {
 			rect(aint_array[i].current.i * w + (w/6 - 1)*i + i , aint_array[i].current.j * h + (h/6 - 1)*0, w/6 - 1, h/6 - 1);
 		} else if (i < 10) {

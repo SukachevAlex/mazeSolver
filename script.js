@@ -25,7 +25,6 @@ let result = {
 	steps_average: 0,
 	time_average: 0,
 	path_average: 0,
-	unsolved: 0,
 	spot_count: 0,
 	minSteps: 0,
 	maxSteps: 0,
@@ -113,7 +112,6 @@ function init() {
 		result.steps_average = 0;
 		result.path_average = 0;
 		result.time_average = 0;
-		result.unsolved = 0;
 		result.spot_count = 0;
 		result.minSteps = 0;
 		result.maxSteps = 0;
@@ -205,7 +203,6 @@ function finishSolving() {
 	document.getElementById('steps_table').innerHTML = result.steps_average;
 	document.getElementById('time_table').innerHTML = result.time_average;
 	document.getElementById('path_table').innerHTML = result.path_average
-	document.getElementById('unsolved_table').innerHTML = result.unsolved;
 
 
 	if (run_count > 0) {
@@ -229,7 +226,6 @@ function finishSolving() {
 			for (let i = 0; i < result.path.length; i++) {
 				addRow('results_table', result.run_num[i], result.aint_num[i], result.steps[i], result.time[i], result.path[i]);
 			}
-			document.getElementById('unsolved_field').innerHTML = result.unsolved;
 			document.getElementById('spot_count_field').innerHTML = result.spot_count;
 			document.getElementById('algorithm_field').innerHTML = algorithm;
 			document.getElementById('steps_result_field').innerHTML = ` min = ${result.minSteps}, max = ${result.maxSteps}`;

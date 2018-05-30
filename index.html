@@ -16,11 +16,6 @@
           <select id="algorithm" name="algorithm">
             <option value="resolveAint">Aint solver</option>
             <option value="aStar">A*</option>
-            <!--
-            <option value="random">random</option>
-            <option value="2particle">random 2 particle</option>
-            <option value="3particle">random 3 particle</option>
-            -->
           </select>
         </div>
         <div class="row">
@@ -78,7 +73,6 @@
             <td>Steps</td>
             <td>Time</td>
             <td>Path</td>
-            <td>Unsolved</td>
             <td>Spots</td>
           </tr>
           <tr>
@@ -86,7 +80,6 @@
             <td id="steps_table">-</td>
             <td id="time_table">-</td>
             <td id="path_table">-</td>
-            <td id="unsolved_table">-</td>
             <td id="spot_count_table">-</td>
           </tr>
         </table>
@@ -118,7 +111,6 @@
           </tr>
       </table>
       <div>Algorithm: <span id="algorithm_field">Aint Solver</span></div>
-      <div>Unsolved <span id="unsolved_field">0</span></div>
       <div>Spot count <span id="spot_count_field">0</span></div>
       <div>Steps<span id="steps_result_field">0</span></div>
       <div>Time<span id="time_result_field">0</span></div>
@@ -132,7 +124,6 @@
   <script src="Aint.js"></script>
   <script src="drawing.js"></script>
   <script src="algorithm/aStar.js"></script>
-  <script src="algorithm/random.js"></script>
   <script src="algorithm/aint.js"></script>
   <script src="script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.js"></script>
