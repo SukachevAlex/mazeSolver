@@ -15,6 +15,8 @@ let w, h;
 let calculating = false;
 let generateNew = false;
 let mazeResolved = false;
+let aintPosition = [];
+let deletedSpotPosition = [];
 
 
 let result = {
@@ -59,15 +61,9 @@ function resetSketch() {
 	calculating = true;
 	mazeResolved = false;
 	start.previous = false;
-	element = new Array(3).fill(start);
-	if (algorithm == 'random' || algorithm == '2particle' || algorithm == '3particle') {
-		element[0].visitors.push(0);
-		element[1].visitors.push(1);
-		element[2].visitors.push(2);
-	}
 	steps = 0;
 	time = 0;
-	path = [[start],[start],[start]];
+	path.push(start);
 	aint_finished = [];
 	aint_resolve = [];
 	spots = [];
@@ -81,6 +77,26 @@ function resetSketch() {
 		aint_array[i].visited.push(start);
 		aint_array[i].path.push(start);
 	}
+}
+
+function resetValue() {
+	result.steps = [];
+	result.path = [];
+	result.time = [];
+	result.aint_num = [];
+	result.run_num = [];
+	aintPosition = [];
+	deletedSpotPosition = [];
+	result.steps_average = 0;
+	result.path_average = 0;
+	result.time_average = 0;
+	result.spot_count = 0;
+	result.minSteps = 0;
+	result.maxSteps = 0;
+	result.minTime = 0;
+	result.maxTime = 0;
+	result.minPath = 0;
+	result.maxPath = 0;
 }
 
 function init() {
@@ -101,25 +117,18 @@ function init() {
 	document.getElementById("solution").style.display = "block";
 	document.getElementById("results").style.display = "none";
 	document.getElementById('solution__text').style.display = "none";
+	document.getElementById("delete_spot").style.display = "none";
+	//document.getElementById("delete_spot").disabled = false;
 
 	document.getElementById('start').addEventListener('click', function () {
 		resetSketch();
-		result.steps = [];
-		result.path = [];
-		result.time = [];
-		result.aint_num = [];
-		result.run_num = [];
-		result.steps_average = 0;
-		result.path_average = 0;
-		result.time_average = 0;
-		result.spot_count = 0;
-		result.minSteps = 0;
-		result.maxSteps = 0;
-		result.minTime = 0;
-		result.maxTime = 0;
-		result.minPath = 0;
-		result.maxPath = 0;
+		resetValue();
 	});
+
+	document.getElementById('delete_spot').addEventListener('click', function () {
+		//this.disabled = true;
+	});
+
 }
 
 
@@ -212,6 +221,9 @@ function finishSolving() {
 
 		noLoop();
 		document.getElementById("solution").style.display = "none";
+		if (addSpots) {
+			document.getElementById("delete_spot").style.display = "block";
+		}
 		document.getElementById("results").style.display = "block";
 		document.getElementById('runCount').value = 1;
 		document.getElementById('spot_count_table').innerHTML = result.spot_count
@@ -237,14 +249,14 @@ function finishSolving() {
 }
 
 function findSpots() {
-	spots = [...path[0]];
+	spots = [...path];
 
-	for (let i = 0; i < path[0].length - 2; i++) {
-		if (path[0][i].i == path[0][i+1].i && path[0][i].i == path[0][i+2].i) {
-			removeFromArray(spots, path[0][i+1]);
+	for (let i = 0; i < path.length - 2; i++) {
+		if (path[i].i == path[i+1].i && path[i].i == path[i+2].i) {
+			removeFromArray(spots, path[i+1]);
 		}
-		if (path[0][i].j == path[0][i+1].j && path[0][i].j == path[0][i+2].j) {
-			removeFromArray(spots, path[0][i+1]);
+		if (path[i].j == path[i+1].j && path[i].j == path[i+2].j) {
+			removeFromArray(spots, path[i+1]);
 		}
 	}
 	result.spot_count = spots.length;
@@ -336,7 +348,6 @@ function countResult() {
 		result.maxPath = Math.max(...result.path);
 		result.maxTime = Math.max(...result.time);
 		result.maxSteps = Math.max(...result.steps);
-
 	}
 }
 
@@ -362,12 +373,6 @@ function draw() {
 
 		if (algorithm == 'aStar') {
 			resolveAStar();
-		}else if (algorithm == 'random') {
-			resolveRandom(1);
-		}else if (algorithm == '2particle') {
-			resolveRandom(2);
-		}else if (algorithm == '3particle') {
-			resolveRandom(3);
 		}else if (algorithm == 'resolveAint') {
 			resolveAint();
 		}
@@ -396,4 +401,19 @@ function addRow(tableID,number, aint_number, steps, time, path) {
 	cell_steps.innerHTML = steps;
 	cell_time.innerHTML = time;
 	cell_path.innerHTML = path;
+}
+
+function deleteSpot() {
+	if (spots.length > 0) {
+		let random_spot = spots[Math.round(random(0, spots.length))];
+		deletedSpotPosition.push([random_spot.i, random_spot.j]);
+		removeFromArray(spots, random_spot);
+		drawBackground();
+		drawSets();
+		drawAints();
+		drawStartEnd();
+		drawCurrentPath();
+		drawSpots();
+	}
+
 }

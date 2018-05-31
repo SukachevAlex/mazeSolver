@@ -22,7 +22,7 @@ function resolveAStar() {
 			temp = temp.previous[0];
 
 		}
-		path[0] = tempPath;
+		path = tempPath;
 
 		drawBackground();
 		drawSets();

@@ -23,23 +23,21 @@ function drawSpots() {
 	noStroke();
 	fill(color(0,0,128, 1));
 	for (let i = 0; i < spots.length; i++) {
-			rect(spots[i].i * w + (w/2.5 - 1)  , spots[i].j * h + (h/2.5 - 1), w/5 - 1, h/5 - 1);
+		rect(spots[i].i * w + (w/2.5 - 1)  , spots[i].j * h + (h/2.5 - 1), w/5 - 1, h/5 - 1);
 	}
 }
 
 function drawCurrentPath() {
 
 	path = uniqueElements(path);
-	for (let i = 0; i < path.length; i++) {
-		stroke(colorPath[i]);
-		strokeWeight(w/6);
-		beginShape();
-		noFill();
-		for(let j = 0; j < path[i].length; j++) {
-			vertex(path[i][j].i * w + w/1.5 -  i * 100 / cols, path[i][j].j * h + h/1.5 - i * 100 / rows);
-		}
-		endShape();
+	stroke(colorPath[0]);
+	strokeWeight(w/6);
+	beginShape();
+	noFill();
+	for(let j = 0; j < path.length; j++) {
+		vertex(path[j].i * w + w/1.5 - 125 / cols, path[j].j * h + h/1.5 - 125 / rows);
 	}
+	endShape();
 }
 
 function drawStartEnd() {

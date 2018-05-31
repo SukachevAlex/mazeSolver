@@ -31,7 +31,7 @@ input[type="number"] {
 }
 
 .button {
-  margin: 20px;
+  margin: 20px auto;
 }
 
 .settings, .button {
@@ -48,11 +48,11 @@ input[type="number"] {
 
 }
 
-#start {
-  padding: 20px 40px;
+#start, #delete_spot {
+  padding: 5px 10px;
   background-color: #fff;
   color: #000;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .row {
@@ -62,7 +62,11 @@ input[type="number"] {
 #results {
   display: none;
   width: 38%;
-  margin-top: 200px;
+  margin-top: 130px;
+}
+
+#delete_spot {
+  display: none;
 }
 
 .table-popup {

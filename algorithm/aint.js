@@ -8,6 +8,8 @@ function resolveAint() {
 		finishSolving();
 	} else {
 
+
+
 			for(let i = 0; i < aint_array.length; i++) {
 
 				if (!aint_resolve.includes(aint_array[i])) {
@@ -22,7 +24,6 @@ function resolveAint() {
 					removeFromArray(notVisited, aint.current);
 					aint.grid[aint.current.j][aint.current.i] = 1;
 
-
 					if (aint.current == end) {
 						aint.grid[aint.current.j][aint.current.i] = 10;
 
@@ -32,8 +33,8 @@ function resolveAint() {
 						result.aint_num.push(aint_array[i].number);
 						result.run_num.push(run_count);
 						mazeResolved = true;
-						if (path[0].length == 1) {
-							path[0] = [...aint_array[i].path];
+						if (path.length == 1) {
+							path = [...aint_array[i].path];
 							aint_resolve.push(aint_array[i]);
 							continue;
 
@@ -99,7 +100,7 @@ function resolveAint() {
 							} else {
 								removeFromArray(aint_array[i].current.visitors, i);
 								aint_array[i].current.pheromon -= 0.1;
-								if (aint_array[i].current !== start && aint_array[i].current.visitors < 1 && aint_array[i].current !== end) {
+								if (aint_array[i].current !== start && aint_array[i].current.visitors < 1 && aint_array[i].current !== end && !path.includes(aint_array[i].current)) {
 									removeFromArray(openSet, aint_array[i].current);
 									closedSet.push(aint_array[i].current);
 									aint_array[i].current.pheromon = -1;
@@ -115,11 +116,9 @@ function resolveAint() {
 						openSet = uniqueElements(openSet);
 						aint_finished = uniqueElements(aint_finished);
 				}
+				aintPosition[i] = [aint_array[i].number, aint_array[i].current.i, aint_array[i].current.j];
 			}
-
 	}
-
-
 
 	for (let i = 0; i < aint_resolve.length; i++) {
 		if (aint_resolve[i].path.length > 1) {
@@ -135,10 +134,11 @@ function resolveAint() {
 
 	drawBackground();
 	drawSets();
-	drawCurrentPath();
 	drawAints();
 	drawStartEnd();
-	if (addSpots) {
+	drawCurrentPath();
+
+	if (addSpots && notVisited.length == 0) {
 		findSpots();
 		drawSpots();
 	}
