@@ -1,7 +1,6 @@
 function resolveAStar() {
 
 	if (openSet.length == 0) {
-		result.unsolved++;
 		finishSolving();
 	} else {
 		let winner = 0;
@@ -76,8 +75,4 @@ function resolveAStar() {
 			}
 		}
 	}
-
-
-
-
 }

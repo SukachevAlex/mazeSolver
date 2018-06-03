@@ -7,6 +7,8 @@ class Aint {
 		this.visited = [];
 		this.finished = false;
 		this.grid = [];
+		this.size = 1;
+		this.center = false;
 		for(let i = 0; i < cols; i++) {
 			this.grid[i] = [];
 			for(let j = 0; j < rows; j++) {

@@ -1,7 +1,10 @@
 let grid = [];
 let openSet = [];
+let openSetSpot = [];
 let closedSet = [];
-let path = [[],[],[]];
+let closedSetSpot = [];
+let path = [];
+let spotPath = [];
 let spots = [];
 let steps_field;
 let time_field;
@@ -15,6 +18,8 @@ let w, h;
 let calculating = false;
 let generateNew = false;
 let mazeResolved = false;
+let findSpotPath = false;
+let drawingAint = false;
 let aintPosition = [];
 let deletedSpotPosition = [];
 
@@ -28,6 +33,7 @@ let result = {
 	time_average: 0,
 	path_average: 0,
 	spot_count: 0,
+	repair_time: 0,
 	minSteps: 0,
 	maxSteps: 0,
 	minTime: 0,
@@ -60,6 +66,7 @@ function resetSketch() {
 	loop();
 	calculating = true;
 	mazeResolved = false;
+	findSpotPath = false;
 	start.previous = false;
 	steps = 0;
 	time = 0;
@@ -91,6 +98,7 @@ function resetValue() {
 	result.path_average = 0;
 	result.time_average = 0;
 	result.spot_count = 0;
+	result.repair_time = 0;
 	result.minSteps = 0;
 	result.maxSteps = 0;
 	result.minTime = 0;
@@ -206,7 +214,7 @@ function finishSolving() {
 	calculating = false;
 	run_count--;
 	document.getElementById('runCount').value = run_count;
-	noLoop();
+	// noLoop();
 	countResult();
 	document.getElementById('algorithm_table').innerHTML = algorithm;
 	document.getElementById('steps_table').innerHTML = result.steps_average;
@@ -219,14 +227,16 @@ function finishSolving() {
 
 	} else if (run_count === 0) {
 
-		noLoop();
+		//noLoop();
 		document.getElementById("solution").style.display = "none";
 		if (addSpots) {
 			document.getElementById("delete_spot").style.display = "block";
 		}
 		document.getElementById("results").style.display = "block";
 		document.getElementById('runCount').value = 1;
-		document.getElementById('spot_count_table').innerHTML = result.spot_count
+		document.getElementById('spot_count_table').innerHTML = result.spot_count;
+
+
 
 		document.getElementById('close_table').addEventListener('click', function () {
 			document.getElementById('table-popup').style.display = "none";
@@ -265,8 +275,11 @@ function findSpots() {
 function generateBoard() {
 
 	openSet = [];
+	openSetSpot = [];
 	closedSet = [];
+	closedSetSpot = [];
 	path = [];
+	spotPath = [];
 
 	start.wall = false;
 	let neighborsStart = start.neighbors;
@@ -281,6 +294,7 @@ function generateBoard() {
 		neighborsEnd[i].wall = false;
 	}
 	openSet.push(start);
+
 
 	loop();
 }
@@ -376,9 +390,18 @@ function draw() {
 		}else if (algorithm == 'resolveAint') {
 			resolveAint();
 		}
-	}else {
-		noLoop();
+	} else if (drawingAint){
+			if(spotPath.length == 0) {
+				drawingAint = false;
+			} else {
+				let elem = findNearestElement();
+				elem.current = spotPath.pop();
+				drawAll();
+			}
 	}
+	// else {
+	// 		noLoop();
+	// 	}
 }
 
 function resetTable(tableID) {
@@ -406,14 +429,33 @@ function addRow(tableID,number, aint_number, steps, time, path) {
 function deleteSpot() {
 	if (spots.length > 0) {
 		let random_spot = spots[Math.round(random(0, spots.length))];
-		deletedSpotPosition.push([random_spot.i, random_spot.j]);
+		deletedSpotPosition.push(random_spot);
 		removeFromArray(spots, random_spot);
-		drawBackground();
-		drawSets();
-		drawAints();
-		drawStartEnd();
-		drawCurrentPath();
-		drawSpots();
+		drawAll();
 	}
+	replaceBrokenElement();
+}
 
+function findNearestElement() {
+	let elem = aint_array[0];
+	for (let i = 1; i < aint_array.length; i++) {
+		if (heuristic(elem.current, deletedSpotPosition[0]) > heuristic(aint_array[i].current, deletedSpotPosition[0])) {
+			elem = aint_array[i];
+		}
+	}
+	return elem;
+}
+
+function replaceBrokenElement() {
+	let elem = findNearestElement();
+	elem.size = 2;
+	elem.center = true;
+	openSetSpot.push(elem.current);
+	while (!findSpotPath) {
+		replaceSpot(elem, deletedSpotPosition[0]);
+	}
+	result.repair_time = spotPath.length - 1;
+	document.getElementById('repair_time_table').innerHTML = result.repair_time;
+	document.getElementById('repair_time_field').innerHTML = ` ${result.repair_time}`;
+	drawingAint = true;
 }
